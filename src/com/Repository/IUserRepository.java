@@ -8,7 +8,7 @@ import java.sql.SQLException;
 public interface IUserRepository {
     boolean addUser(/*User*/JSONObject user) throws SQLException, ClassNotFoundException;
     boolean resetUserPassword(JSONObject params) throws SQLException, ClassNotFoundException;
-    boolean deleteUser();
+    boolean deleteUser(JSONObject user);
     User login();
     boolean logout();
 }

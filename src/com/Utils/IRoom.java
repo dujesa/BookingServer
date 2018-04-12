@@ -1,8 +1,9 @@
 package com.Utils;
 
 import com.Entity.Room;
+import vendor.json.JSONObject;
 
 public interface IRoom {
-     Room viewSingleRoom(String s);
+     Room viewSingleRoom(JSONObject s);
      Room[] viewAvailableRooms();
 }

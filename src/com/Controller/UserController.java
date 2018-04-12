@@ -12,16 +12,17 @@ import java.sql.SQLException;
  */
 public class UserController implements IUser {
 
-    UserRepository userRepo;
+    UserRepository userRepo = new UserRepository();
 
-    public User addUser(JSONObject data) {
-        return null;
+    public boolean addUser(JSONObject user) throws SQLException, ClassNotFoundException {
+
+//        userRepo = new UserRepository();
+
+        return userRepo.addUser(user);
     }
 
     @Override
     public boolean resetUserPassword(JSONObject user) throws SQLException, ClassNotFoundException {
-
-        userRepo = new UserRepository();
 
         return userRepo.resetUserPassword(user);
 
@@ -29,7 +30,9 @@ public class UserController implements IUser {
 
     @Override
     public boolean deleteUser(JSONObject user) {
-        return false;
+
+        return userRepo.deleteUser(user);
+
     }
 
     @Override
@@ -37,15 +40,6 @@ public class UserController implements IUser {
         return null;
     }
 
-    public boolean resetUserPassword() {
-        return false;
-    }
-    public boolean deleteUser()  {
-        return false;
-    }
-    public User login() {
-        return null;
-    }
     public boolean logout() {
         return false;
     }

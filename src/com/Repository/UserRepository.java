@@ -64,7 +64,7 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public boolean deleteUser() {
+    public boolean deleteUser(JSONObject user) {
         return false;
     }
 

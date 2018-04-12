@@ -1,6 +1,7 @@
 package com.Utils;
 
 import com.Controller.BookingController;
+import com.Controller.RoomController;
 import com.Controller.UserController;
 import vendor.json.JSONObject;
 
@@ -32,22 +33,40 @@ public class Router {
             switch (action){
                 case "roomBooking":
                     response.put("Response", controller.roomBooking(data));
+                    break;
                 case "viewBookings":
                     response.put("Response",controller.viewBookings());
+                    break;
                 case "viewSingleBooking":
                     response.put("Response",controller.viewSingleBooking(data));
+                    break;
                 case "updateBooking":
                     response.put("Response",controller.updateBooking(data));
+                    break;
                 case "deleteBooking":
                     response.put("Response",controller.roomBooking(data));
-
+                    break;
+                default:
+                    response.put("Response","route unvalid");
+                    break;
             }
             return response;
 
-//        } else if (route.equalsIgnoreCase("RoomController")) {
-//
-//            return new RoomController();
+        } else if (route.equalsIgnoreCase("RoomController")) {
 
+            RoomController controller = new RoomController();
+
+            switch (action) {
+                case "viewSingle":
+                    response.put("Response", controller.viewSingleRoom(data));
+                    break;
+                case "resetUserPassword":
+                    response.put("Response", controller.viewAvailableRooms());
+                    break;
+                default:
+                    response.put("Response", "route unvalid");
+                    break;
+            }
         } else if (route.equalsIgnoreCase("UserController")) {
 
             UserController controller = new UserController();
@@ -68,16 +87,19 @@ public class Router {
                 case "logout":
                     response.put("Response",controller.logout());
                     break;
-
+                default:
+                    response.put("Response","route unvalid");
+                    break;
             }
             System.out.println(response);
             return response;
 
-        } else {
+        }
 
             return null;
 
-        }
+
     }
 
 }
+
