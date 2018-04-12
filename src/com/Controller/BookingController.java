@@ -2,30 +2,26 @@ package com.Controller;
 
 import com.Entity.Booking;
 import com.Utils.*;
+import vendor.json.JSONObject;
+
 public class BookingController implements IBook {
 
-    @Override
-    public boolean roomBooking() {
+    public boolean roomBooking(JSONObject data) {
+        System.out.println("AAA mali ti bi doda "+data);
         return false;
     }
 
-    @Override
     public Booking[] viewBookings() {
         return new Booking[0];
     }
 
-    @Override
-    public Booking viewSingleBooking() {
-        return null;
-    }
+    public Booking viewSingleBooking(JSONObject data) { return new Booking(); }
 
-    @Override
-    public boolean updateBooking() {
+    public boolean updateBooking(JSONObject data) {
         return false;
     }
 
-    @Override
-    public boolean deleteBooking() {
+    public boolean deleteBooking(JSONObject data) {
         return false;
     }
 }
