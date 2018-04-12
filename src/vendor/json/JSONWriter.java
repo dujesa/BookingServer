@@ -1,4 +1,4 @@
-package json;
+package vendor.json;
 
 import java.io.IOException;
 import java.math.BigDecimal;

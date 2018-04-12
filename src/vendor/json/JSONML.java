@@ -1,4 +1,4 @@
-package json;
+package vendor.json;
 
 /*
 Copyright (c) 2008 JSON.org

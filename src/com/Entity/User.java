@@ -1,9 +1,11 @@
 package com.Entity;
 
-import java.io.Serializable;
 import com.sun.xml.internal.ws.util.StringUtils;
+import vendor.json.JSONObject;
 
-public class User implements Serializable {
+import java.io.Serializable;
+
+public class User extends JSONObject implements Serializable {
 
     /**
      * primary key of User
