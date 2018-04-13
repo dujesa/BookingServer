@@ -1,15 +1,13 @@
 package com;
 
-import com.Utils.Router;
 import com.Utils.Socketer;
 
-import java.net.Socket;
 import java.util.ArrayList;
 
 
 public class Main {
 
-    private static Socket socket;
+
 
     public static void main(String[] args) throws Exception {
 
@@ -17,17 +15,19 @@ public class Main {
     //        ArrayList<Object> clientRequest;
 
         Socketer s = new Socketer(8888);
+
+        ArrayList<Object> clientRequest;
         //Server is running always due to infinite loop
         while (true) {
 //            try {
-                ArrayList<Object> clientRequest;
-                clientRequest = s.listenForClient();
 
-                System.out.println(clientRequest);
+               s.listenForClient();
 
-                s.sendToClient(
-                        Router.routeRequest(clientRequest)
-                );
+//                System.out.println(clientRequest);
+
+//                s.sendToClient(
+//
+//                );
 
 //            } catch (Exception e) {
 //                System.out.println("Client disconnected...");
