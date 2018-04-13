@@ -1,7 +1,5 @@
 package com.Repository;
 
-import com.Entity.Booking;
-import com.google.gson.JsonObject;
 import vendor.json.JSONArray;
 import vendor.json.JSONObject;
 
@@ -14,7 +12,7 @@ public interface IBookingRepository {
      */
     boolean bookRoom(JSONObject params);
     JSONArray viewBookings() throws SQLException, ClassNotFoundException;
-    Booking viewSingleBooking(JsonObject booking);
+    JSONObject viewSingleBooking(JSONObject booking) throws SQLException, ClassNotFoundException;
     boolean updateBooking(JSONObject booking);
     boolean delete(JSONObject booking);
 
