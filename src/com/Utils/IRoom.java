@@ -1,9 +1,10 @@
 package com.Utils;
 
-import com.Entity.Room;
 import vendor.json.JSONObject;
 
+import java.sql.SQLException;
+
 public interface IRoom {
-     Room viewSingleRoom(JSONObject s);
-     Room[] viewAvailableRooms();
+     JSONObject viewSingleRoom(JSONObject params);
+     JSONObject viewAvailableRooms(JSONObject params) throws SQLException, ClassNotFoundException;
 }

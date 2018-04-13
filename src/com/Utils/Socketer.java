@@ -75,6 +75,7 @@ public class Socketer {
                 route = request.getString("route");
                 data = request.getJSONObject("data");
 
+
                 req.clear();
                 req.add(route);
                 req.add(data);

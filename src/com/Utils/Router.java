@@ -57,11 +57,11 @@ public class Router {
             RoomController controller = new RoomController();
 
             switch (action) {
-                case "viewSingle":
+                case "viewSingleRoom":
                     response.put("Response", controller.viewSingleRoom(data));
                     break;
-                case "resetUserPassword":
-                    response.put("Response", controller.viewAvailableRooms());
+                case "viewAvailableRooms":
+                    response.put("Response", controller.viewAvailableRooms(data));
                     break;
                 default:
                     response.put("Response", "route unvalid");

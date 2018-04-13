@@ -1,27 +1,33 @@
 package com.Controller;
 
-import com.Entity.Booking;
+import com.Repository.BookingRepository;
 import com.Utils.*;
+import vendor.json.JSONArray;
 import vendor.json.JSONObject;
+
+import java.sql.SQLException;
 
 public class BookingController implements IBook {
 
-    public boolean roomBooking(JSONObject data) {
-        System.out.println("AAA mali ti bi doda "+data);
-        return false;
+    BookingRepository bookingRepo = new BookingRepository();
+
+    public boolean roomBooking(JSONObject data) throws SQLException, ClassNotFoundException {
+        return bookingRepo.bookRoom(data);
     }
 
-    public Booking[] viewBookings() {
-        return new Booking[0];
+    public JSONArray viewBookings() throws SQLException, ClassNotFoundException {
+        return bookingRepo.viewBookings();
     }
 
-    public Booking viewSingleBooking(JSONObject data) { return new Booking(); }
+    public JSONObject viewSingleBooking(JSONObject data) throws SQLException, ClassNotFoundException {
+        return bookingRepo.viewSingleBooking(data);
+    }
 
     public boolean updateBooking(JSONObject data) {
         return false;
     }
 
-    public boolean deleteBooking(JSONObject data) {
-        return false;
+    public boolean deleteBooking(JSONObject data) throws SQLException, ClassNotFoundException {
+        return bookingRepo.deleteBooking(data);
     }
 }

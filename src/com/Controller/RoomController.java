@@ -1,18 +1,24 @@
 package com.Controller;
 
-import com.Entity.Room;
+import com.Repository.RoomRepository;
 import com.Utils.IRoom;
 import vendor.json.JSONObject;
 
+import java.sql.SQLException;
+
 public class RoomController implements IRoom {
 
+    RoomRepository roomRepo = new RoomRepository();
+
     @Override
-    public Room viewSingleRoom(JSONObject data) {
-        return null;
+    public JSONObject viewSingleRoom(JSONObject data) {
+
+        return roomRepo.viewSingleRoom(data);
+
     }
 
     @Override
-    public Room[] viewAvailableRooms() {
-        return new Room[0];
+    public JSONObject viewAvailableRooms(JSONObject data) throws SQLException, ClassNotFoundException {
+        return roomRepo.viewAvailableRooms(data);
     }
 }
