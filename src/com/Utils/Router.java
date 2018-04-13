@@ -88,10 +88,10 @@ public class Router {
                     response.put("Response",controller.logout());
                     break;
                 default:
-                    response.put("Response","route unvalid");
+                    response.put("Response","route invalid");
                     break;
             }
-            System.out.println(response);
+//            System.out.println(response);
             return response;
 
         }

@@ -1,8 +1,7 @@
 package com.Controller;
 
-import com.Entity.User;
+import com.Repository.IUserRepository;
 import com.Repository.UserRepository;
-import com.Utils.IUser;
 import vendor.json.JSONObject;
 
 import java.sql.SQLException;
@@ -10,7 +9,7 @@ import java.sql.SQLException;
 /**
  * Controller class for controlling requests related to user entity actions
  */
-public class UserController implements IUser {
+public class UserController implements IUserRepository {
 
     UserRepository userRepo = new UserRepository();
 
@@ -29,18 +28,28 @@ public class UserController implements IUser {
     }
 
     @Override
-    public boolean deleteUser(JSONObject user) {
+    public boolean deleteUser(JSONObject user) throws SQLException, ClassNotFoundException {
 
         return userRepo.deleteUser(user);
 
     }
 
     @Override
-    public User login(JSONObject user) {
-        return null;
+    public JSONObject login(JSONObject user) throws SQLException, ClassNotFoundException {
+
+        return userRepo.login(user);
+
     }
+//    @Override
+//    public User getUser(JSONObject user) throws SQLException, ClassNotFoundException {
+//
+//        return userRepo.getUser(user);
+//
+//    }
 
     public boolean logout() {
-        return false;
+
+        return true;
+
     }
 }

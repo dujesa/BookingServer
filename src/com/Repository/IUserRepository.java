@@ -1,6 +1,5 @@
 package com.Repository;
 
-import com.Entity.User;
 import vendor.json.JSONObject;
 
 import java.sql.SQLException;
@@ -8,7 +7,9 @@ import java.sql.SQLException;
 public interface IUserRepository {
     boolean addUser(/*User*/JSONObject user) throws SQLException, ClassNotFoundException;
     boolean resetUserPassword(JSONObject params) throws SQLException, ClassNotFoundException;
-    boolean deleteUser(JSONObject user);
-    User login();
+    boolean deleteUser(JSONObject user) throws SQLException, ClassNotFoundException;
+    JSONObject login(JSONObject user) throws SQLException, ClassNotFoundException;
+//    User getUser(JSONObject user) throws SQLException, ClassNotFoundException;
     boolean logout();
+
 }

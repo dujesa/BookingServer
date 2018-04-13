@@ -1,9 +1,6 @@
 package com.Utils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class DBConnecter {
 
@@ -29,6 +26,11 @@ public class DBConnecter {
 //            connection.commit();
 
             return preparedStmt;
+        }
+        public static ResultSet searchDB (String sqlQuery) throws SQLException, ClassNotFoundException {
+            Connection connection = DBConnecter.connectToDatabase();
+            Statement stmt = connection.createStatement();
+            return stmt.executeQuery(sqlQuery);
         }
 
 //        public static void closeConnectionToDatabase(Connection) {
