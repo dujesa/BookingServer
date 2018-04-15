@@ -13,7 +13,6 @@ public class RoomRepository implements IRoomRepository {
 
     ArrayList<Room> rooms;
     JSONObject response = new JSONObject();
-//    JSONArray response = new JSONArray();
 
     @Override
     public JSONObject viewSingleRoom(JSONObject room) throws SQLException, ClassNotFoundException {
@@ -33,7 +32,6 @@ public class RoomRepository implements IRoomRepository {
                 response.put("capacity", resultRows.getInt("capacity"));
                 response.put("phone", resultRows.getString("phone"));
 
-
             }
         } else {
 
@@ -41,27 +39,21 @@ public class RoomRepository implements IRoomRepository {
 
         }
 
-
-
         return response;
 
     }
 
     @Override
-
     public JSONArray viewAvailableRooms(JSONObject parameters) throws SQLException, ClassNotFoundException {
+
             JSONObject room;
             JSONArray rooms = new JSONArray();
 
-
-        System.out.println(parameters.getString("dateAndTimeStart") );
-        System.out.println(parameters.getString("dateAndTimeEnd") );
-
-//        String optional =(parameters.getString("attendees") == null) ? ("") : (" AND capacity >= '" + parameters.getString("attendees")');
-
+//        System.out.println(parameters.getString("dateAndTimeStart") );
+//        System.out.println(parameters.getString("dateAndTimeEnd") );
 
             String sql =
-                    "SELECT room.room_number,room.type,room.phone,room.capacity" +
+                    "SELECT DISTINCT room.room_number,room.type,room.phone,room.capacity" +
                             " FROM room" +
                             " LEFT JOIN bookings on room.room_number=bookings.room_number" +
                             " WHERE (datetime_start is NULL" +
@@ -91,7 +83,6 @@ public class RoomRepository implements IRoomRepository {
                 room = new JSONObject();
 
                 room.put("room", "404 - NotFound");
-//                response.put(room);
                 rooms.put(room);
 
             }

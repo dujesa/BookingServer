@@ -20,12 +20,9 @@ public class BookingRepository implements IBookingRepository {
                         "VALUES (?,?,?,?,?,?,?,?)"
                 ;
 
-        System.out.println(booking.toString());
-
         int recurring = (booking.getString("recurring").equalsIgnoreCase("no")) ? 0 : 1;
 
         PreparedStatement preparedStatement = DBConnecter.queryDB(sql);
-
 
         preparedStatement.setString(1, booking.getString("userID"));
         preparedStatement.setString(2, booking.getString("roomNumber"));
@@ -53,6 +50,7 @@ public class BookingRepository implements IBookingRepository {
                         " WHERE bookings.room_number = room.room_number " +
                         " AND bookings.id_user = users.id_user;"
                 ;
+
         ResultSet resultRows = DBConnecter.searchDB(sql);
 
         if(resultRows.isBeforeFirst()) {
