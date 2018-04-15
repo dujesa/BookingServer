@@ -13,7 +13,7 @@ public interface IBookingRepository {
     boolean bookRoom(JSONObject params) throws SQLException, ClassNotFoundException;
     JSONArray viewBookings() throws SQLException, ClassNotFoundException;
     JSONObject viewSingleBooking(JSONObject booking) throws SQLException, ClassNotFoundException;
-    boolean updateBooking(JSONObject booking);
+    boolean updateBooking(JSONObject booking) throws SQLException, ClassNotFoundException;
     boolean deleteBooking(JSONObject booking) throws SQLException, ClassNotFoundException;
 
 }

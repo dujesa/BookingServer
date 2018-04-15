@@ -15,8 +15,6 @@ public class UserController implements IUserRepository {
 
     public boolean addUser(JSONObject user) throws SQLException, ClassNotFoundException {
 
-//        userRepo = new UserRepository();
-
         return userRepo.addUser(user);
     }
 
@@ -40,12 +38,6 @@ public class UserController implements IUserRepository {
         return userRepo.login(user);
 
     }
-//    @Override
-//    public User getUser(JSONObject user) throws SQLException, ClassNotFoundException {
-//
-//        return userRepo.getUser(user);
-//
-//    }
 
     public boolean logout() {
 

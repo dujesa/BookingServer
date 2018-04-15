@@ -23,8 +23,8 @@ public class BookingController implements IBook {
         return bookingRepo.viewSingleBooking(data);
     }
 
-    public boolean updateBooking(JSONObject data) {
-        return false;
+    public boolean updateBooking(JSONObject data) throws SQLException, ClassNotFoundException {
+        return bookingRepo.updateBooking(data);
     }
 
     public boolean deleteBooking(JSONObject data) throws SQLException, ClassNotFoundException {

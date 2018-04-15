@@ -38,10 +38,6 @@ public class Socketer {
         System.out.println("Server started and listening to the "+ serverPort);
 
 
-
-
-
-
     }
     public void listenForClient(/*String serverAddress, int serverPort*/) throws Exception {
 
@@ -65,12 +61,15 @@ public class Socketer {
         DataInputStream din=new DataInputStream(clientsocket.getInputStream());
         DataOutputStream dout=new DataOutputStream(clientsocket.getOutputStream());
 
+        try {
             while (true) {
 
                 String messageReceived = null;
 
-                messageReceived=din.readUTF();
+
+                messageReceived = din.readUTF();
                 JSONObject request = new JSONObject(messageReceived);
+
 
                 route = request.getString("route");
                 data = request.getJSONObject("data");
@@ -81,19 +80,17 @@ public class Socketer {
                 req.add(data);
 
                 response = Router.routeRequest(req);
+
+
                 dout.writeUTF(response.toString());
                 dout.flush();
 
-                System.out.println(response);
             }
-        }
+        }catch (Exception e){}
+    }
 
     public void sendToClient(JSONObject response) throws IOException {
         //Sending the response back to client
-
-
-
-        //bufferedWriter.close();
 
         this.echoClientData(response);
 

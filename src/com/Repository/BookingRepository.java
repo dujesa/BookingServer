@@ -13,27 +13,29 @@ public class BookingRepository implements IBookingRepository {
 
     JSONObject response;
 
-    public boolean bookRoom(JSONObject params) throws SQLException, ClassNotFoundException {
+    public boolean bookRoom(JSONObject booking) throws SQLException, ClassNotFoundException {
 
         String sql =
                 "INSERT INTO bookings " +
-                        "(users.id_user,room.room_number,event_name,ordered_by,name,last_name,mail,attenders,reccuring,datetime_start,datetime_end) " +
-                        "VALUES (?,?,?,?,?,?,?,?,?)"
+                        "(id_user, room_number, event_name, ordered_by, attenders, reccuring, datetime_start, datetime_end) " +
+                        "VALUES (?,?,?,?,?,?,?,?)"
                 ;
-        JSONObject booking=null;
+
+        System.out.println(booking.toString());
+
+        int recurring = (booking.getString("recurring").equalsIgnoreCase("no")) ? 0 : 1;
 
         PreparedStatement preparedStatement = DBConnecter.queryDB(sql);
 
 
-        preparedStatement.setInt(1, booking.getInt("users.id_user"));
-        preparedStatement.setString(2, booking.getString("room.room_number"));
-        preparedStatement.setString(3, booking.getString("event_name"));
-        preparedStatement.setString(4, booking.getString("attenders"));
-        preparedStatement.setString(5, booking.getString("ordered_by"));
-        preparedStatement.setString(6, booking.getString("datetime_start"));
-        preparedStatement.setString(7, booking.getString("datetime_end"));
-        preparedStatement.setString(8, booking.getString("mail"));
-        preparedStatement.setInt(8, booking.getInt("reccuring"));
+        preparedStatement.setString(1, booking.getString("userID"));
+        preparedStatement.setString(2, booking.getString("roomNumber"));
+        preparedStatement.setString(3, booking.getString("eventName"));
+        preparedStatement.setString(4, booking.getString("orderedBy"));
+        preparedStatement.setString(5, booking.getString("numberAtt"));
+        preparedStatement.setInt(6, recurring);
+        preparedStatement.setString(7, booking.getString("dateAndTimeStart"));
+        preparedStatement.setString(8, booking.getString("dateAndTimeEnd"));
 
         boolean returnValue = (preparedStatement.executeUpdate() == 0) ? false : true;
 
@@ -44,6 +46,7 @@ public class BookingRepository implements IBookingRepository {
 
         JSONArray response = new JSONArray();
         JSONObject booking;
+        int index = 0;
 
         String sql =
                 "SELECT id_booking, users.username, event_name, room.room_number, attenders, room.capacity, ordered_by, room.phone, datetime_start, datetime_end, reccuring" +
@@ -58,29 +61,31 @@ public class BookingRepository implements IBookingRepository {
 
                 booking = new JSONObject();
 
+                String recurring = (resultRows.getInt("reccuring")==0) ? "Yes" : "No";
+
                 booking.put("idBooking", resultRows.getString("id_booking"));
                 booking.put("username", resultRows.getString("username"));
+                booking.put("attendees", resultRows.getString("attenders"));
                 booking.put("eventName", resultRows.getString("event_name"));
-//                booking.put("officeNumber", resultRows.getString("office_number"));
                 booking.put("roomNumber", resultRows.getString("room_number"));
-//                booking.put("capacity", resultRows.getString("capacity"));
                 booking.put("orderedBy", resultRows.getString("ordered_by"));
-//                booking.put("phoneNumber", resultRows.getString("phone"));
                 booking.put("dateAndTimeStart", resultRows.getString("datetime_start"));
                 booking.put("dateAndTimeEnd", resultRows.getString("datetime_end"));
-                booking.put("recurring", resultRows.getString("reccuring"));
+                booking.put("recurring", recurring);
 
-                response.put(booking);
+                response.put(index++, booking);
 
             }
         } else {
 
             booking = new JSONObject();
 
-            booking.put("username", "404 - NotFound");
+            booking.put("idBooking", "404 - NotFound");
             response.put(booking);
 
         }
+
+
 
         return response;
     }
@@ -107,15 +112,14 @@ public class BookingRepository implements IBookingRepository {
                     resultRows.getString("datetime_end")
             );
 
-//            Period duration = Period.between(startDate, endDate);
-//            Date
+
 
 
             response.put("idBooking", resultRows.getString("id_booking"));
             response.put("roomNumber", resultRows.getString("room_number"));
             response.put("eventName", resultRows.getString("event_name"));
-            response.put("attenders", resultRows.getString("attenders"));
-            response.put("reccuring", resultRows.getString("recurring"));
+            response.put("attendees", resultRows.getString("attenders"));
+            response.put("recurring", resultRows.getString("reccuring"));
             response.put("datetime_start", resultRows.getString("datetime_start"));
             //response.put("", resultRows.getString(""));
             response.put("name", resultRows.getString("name"));
@@ -124,14 +128,36 @@ public class BookingRepository implements IBookingRepository {
             response.put("mail", resultRows.getString("email"));
         } else {
 
-            response.put("booking", "404 - NotFound");
+            response.put("Booking", "404 - NotFound");
 
         }
 
         return response;
 
     }
-    public boolean updateBooking(JSONObject booking){return false;}
+    public boolean updateBooking(JSONObject booking) throws SQLException, ClassNotFoundException {
+        String sql =
+                " UPDATE bookings " +
+                    "SET room_number = ?, event_name = ?, ordered_by = ?, datetime_start = ?, datetime_end = ?, reccuring = ?, attenders = ? " +
+                    "WHERE id_booking = ?"
+                ;
+
+        int recurring = (booking.getString("recurring").equalsIgnoreCase("no")) ? 0 : 1;
+
+        PreparedStatement preparedStatement = DBConnecter.queryDB(sql);
+
+        preparedStatement.setString(1, booking.getString("roomNumber"));
+        preparedStatement.setString(2, booking.getString("eventName"));
+        preparedStatement.setString(3, booking.getString("orderedBy"));
+        preparedStatement.setString(4, booking.getString("dateAndTimeStart"));
+        preparedStatement.setString(5, booking.getString("dateAndTimeEnd"));
+        preparedStatement.setInt(6, recurring);
+        preparedStatement.setString(7, booking.getString("attendees"));
+        preparedStatement.setString(8, booking.getString("idBooking"));
+
+        boolean returnValue = (preparedStatement.executeUpdate() == 0) ? false : true;
+        return returnValue;
+    }
 
     public boolean deleteBooking(JSONObject booking) throws SQLException, ClassNotFoundException {
 

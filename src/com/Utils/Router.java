@@ -26,74 +26,78 @@ public class Router {
         route = params[0];
         action = params[1];
 
-        if (route.equalsIgnoreCase("BookingController")) {
+        if(route != null) {
+            if (route.equalsIgnoreCase("BookingController")) {
 
-            BookingController controller = new BookingController();
+                BookingController controller = new BookingController();
 
-            switch (action){
-                case "roomBooking":
-                    response.put("Response", controller.roomBooking(data));
-                    break;
-                case "viewBookings":
-                    response.put("Response",controller.viewBookings());
-                    break;
-                case "viewSingleBooking":
-                    response.put("Response",controller.viewSingleBooking(data));
-                    break;
-                case "updateBooking":
-                    response.put("Response",controller.updateBooking(data));
-                    break;
-                case "deleteBooking":
-                    response.put("Response",controller.roomBooking(data));
-                    break;
-                default:
-                    response.put("Response","route unvalid");
-                    break;
+                switch (action) {
+                    case "roomBooking":
+                        response.put("Response", controller.roomBooking(data));
+                        break;
+                    case "viewBookings":
+                        response.put("Response", controller.viewBookings());
+                        break;
+                    case "viewSingleBooking":
+                        response.put("Response", controller.viewSingleBooking(data));
+                        break;
+                    case "updateBooking":
+                        response.put("Response", controller.updateBooking(data));
+                        break;
+                    case "deleteBooking":
+                        response.put("Response", controller.deleteBooking(data));
+                        break;
+                    default:
+                        response.put("Response", "Route invalid");
+                        break;
+                }
+
+            } else if (route.equalsIgnoreCase("RoomController")) {
+
+                RoomController controller = new RoomController();
+
+                switch (action) {
+                    case "viewSingleRoom":
+                        response.put("Response", controller.viewSingleRoom(data));
+                        break;
+                    case "viewAvailableRooms":
+                        response.put("Response", controller.viewAvailableRooms(data));
+                        break;
+                    default:
+                        response.put("Response", "Route invalid");
+                        break;
+                }
+
+            } else if (route.equalsIgnoreCase("UserController")) {
+
+                UserController controller = new UserController();
+
+                switch (action) {
+                    case "addUser":
+                        response.put("Response", controller.addUser(data));
+                        break;
+                    case "resetUserPassword":
+                        response.put("Response", controller.resetUserPassword(data));
+                        break;
+                    case "deleteUser":
+                        response.put("Response", controller.deleteUser(data));
+                        break;
+                    case "login":
+                        response.put("Response", controller.login(data));
+                        break;
+                    case "logout":
+                        response.put("Response", controller.logout());
+                        break;
+                    default:
+                        response.put("Response", "Route invalid");
+                        break;
+                }
+
+
             }
+            System.out.println(response);
+            DBConnecter.closeDatabaseConnection();
             return response;
-
-        } else if (route.equalsIgnoreCase("RoomController")) {
-
-            RoomController controller = new RoomController();
-
-            switch (action) {
-                case "viewSingleRoom":
-                    response.put("Response", controller.viewSingleRoom(data));
-                    break;
-                case "viewAvailableRooms":
-                    response.put("Response", controller.viewAvailableRooms(data));
-                    break;
-                default:
-                    response.put("Response", "route unvalid");
-                    break;
-            }
-        } else if (route.equalsIgnoreCase("UserController")) {
-
-            UserController controller = new UserController();
-
-            switch (action){
-                case "addUser":
-                    response.put("Response",controller.addUser(data));
-                    break;
-                case "resetUserPassword":
-                    response.put("Response",controller.resetUserPassword(data));
-                    break;
-                case "deleteUser":
-                    response.put("Response",controller.deleteUser(data));
-                    break;
-                case "login":
-                    response.put("Response",controller.login(data));
-                    break;
-                case "logout":
-                    response.put("Response",controller.logout());
-                    break;
-                default:
-                    response.put("Response","route invalid");
-                    break;
-            }
-//            System.out.println(response);
-            return response;
-
         }
 
             return null;
