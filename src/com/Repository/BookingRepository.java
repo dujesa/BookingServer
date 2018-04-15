@@ -7,7 +7,6 @@ import vendor.json.JSONObject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 
 public class BookingRepository implements IBookingRepository {
 
@@ -50,7 +49,7 @@ public class BookingRepository implements IBookingRepository {
 
         String sql =
                 "SELECT id_booking, users.username, event_name, room.room_number, attenders, room.capacity, ordered_by, room.phone, datetime_start, datetime_end, reccuring" +
-                        " FROM bookings,room,users" +
+                        " FROM bookings, room, users" +
                         " WHERE bookings.room_number = room.room_number " +
                         " AND bookings.id_user = users.id_user;"
                 ;
@@ -61,7 +60,7 @@ public class BookingRepository implements IBookingRepository {
 
                 booking = new JSONObject();
 
-                String recurring = (resultRows.getInt("reccuring")==0) ? "Yes" : "No";
+                String recurring = (resultRows.getInt("reccuring")==0) ? "No" : "Yes";
 
                 booking.put("idBooking", resultRows.getString("id_booking"));
                 booking.put("username", resultRows.getString("username"));
@@ -94,38 +93,36 @@ public class BookingRepository implements IBookingRepository {
 
     public JSONObject viewSingleBooking(JSONObject booking) throws SQLException, ClassNotFoundException {
 
+        String recurring, fullName;
+        response = new JSONObject();
+
         String sql =
-                "SELECT bookings.id_booking, room.room_number, event_name, attenders, reccuring, datetime_start, datetime_end, name, last_name, user_phone, mail  FROM bookings, room, users" +
-                        "WHERE bookings.room_number = room.room_number" +
-                        "AND bookings.id_user = users.id_user" +
-                        "AND bookings.event_name = '" + booking.getInt("idBooking") + "';"
+                "SELECT room.room_number, event_name, attenders, reccuring, ordered_by, users.username, datetime_start, datetime_end, users.name, users.last_name, users.user_phone, users.mail, users.office_number " +
+                        "FROM bookings, room, users " +
+                        "WHERE bookings.id_booking = " + booking.getInt("idBooking") + " " +
+                        "AND bookings.room_number = room.room_number " +
+                        "AND bookings.id_user = users.id_user ;"
                 ;
         ResultSet resultRows = DBConnecter.searchDB(sql);
 
         if(resultRows.isBeforeFirst()) {
 
-            LocalDateTime startDate = LocalDateTime.parse(
-                    resultRows.getString("datetime_start")
-            );
+            recurring = (resultRows.getInt("reccuring") == 0) ? "No" : "Yes";
+            fullName = resultRows.getString("name") + " " + resultRows.getString("last_name");
 
-            LocalDateTime endDate = LocalDateTime.parse(
-                    resultRows.getString("datetime_end")
-            );
-
-
-
-
-            response.put("idBooking", resultRows.getString("id_booking"));
             response.put("roomNumber", resultRows.getString("room_number"));
             response.put("eventName", resultRows.getString("event_name"));
             response.put("attendees", resultRows.getString("attenders"));
-            response.put("recurring", resultRows.getString("reccuring"));
-            response.put("datetime_start", resultRows.getString("datetime_start"));
-            //response.put("", resultRows.getString(""));
-            response.put("name", resultRows.getString("name"));
-            response.put("last_name", resultRows.getString("firstName"));
-            response.put("user_phone", resultRows.getString("userPhone"));
-            response.put("mail", resultRows.getString("email"));
+            response.put("orderedBy", resultRows.getString("ordered_by"));
+            response.put("username", resultRows.getString("username"));
+            response.put("recurring", recurring);
+            response.put("dateAndTimeStart", resultRows.getString("datetime_start"));
+            response.put("dateAndTimeEnd", resultRows.getString("datetime_end"));
+            response.put("fullName", fullName);
+            response.put("phoneNumber", resultRows.getString("user_phone"));
+            response.put("mail", resultRows.getString("mail"));
+            response.put("officeNumber", resultRows.getString("office_number"));
+
         } else {
 
             response.put("Booking", "404 - NotFound");
