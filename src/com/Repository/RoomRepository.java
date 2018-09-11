@@ -9,11 +9,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Klasa za dohvaćanje svih podataka vezanih za sobe putem SQL upita
+ */
 public class RoomRepository implements IRoomRepository {
 
     ArrayList<Room> rooms;
     JSONObject response = new JSONObject();
 
+    /**
+     * Metoda za koja omotaje SQL upit vezan za select jedne sobe određene po parametru room number
+     */
     @Override
     public JSONObject viewSingleRoom(JSONObject room) throws SQLException, ClassNotFoundException {
 
@@ -43,6 +49,9 @@ public class RoomRepository implements IRoomRepository {
 
     }
 
+    /**
+     * Metoda za koja omotaje SQL upit vezan za select svih soba određenih po uvjetu da nisu zauzete u odbređenom periodu, te većem kapacitetu od zadanog
+     */
     @Override
     public JSONArray viewAvailableRooms(JSONObject parameters) throws SQLException, ClassNotFoundException {
 

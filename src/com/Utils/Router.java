@@ -9,24 +9,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Util class for routing clients request to different controllers in server
+ * Util klasa za routanje klijentskih requestova na različite kontrolere, ovisno o route parametru koji je poslan za određeni zahtjev
  */
 public class Router {
+
 
     public static JSONObject routeRequest(/*String routeAndAction, JSONObject data*/ArrayList<Object> routeAndAction) throws SQLException, ClassNotFoundException {
 
         String route, action;
         JSONObject data;
         JSONObject response = new JSONObject();
-
-//        route = (String) routeAndAction.get(1);
-
         String[] params = routeAndAction.get(0).toString().split("/");
         data = (JSONObject) routeAndAction.get(1);
         route = params[0];
         action = params[1];
 
-        if(route != null) {
+        if (route != null) {
             if (route.equalsIgnoreCase("BookingController")) {
 
                 BookingController controller = new BookingController();
@@ -100,7 +98,7 @@ public class Router {
             return response;
         }
 
-            return null;
+        return null;
 
 
     }

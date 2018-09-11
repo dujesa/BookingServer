@@ -7,6 +7,9 @@ import vendor.json.JSONObject;
 
 import java.sql.SQLException;
 
+/**
+ * Kontroler klasa vezana za sva usmjeravanja prema BookingRepositoryju
+ */
 public class BookingController implements IBook {
 
     BookingRepository bookingRepo = new BookingRepository();

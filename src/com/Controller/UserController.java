@@ -7,7 +7,7 @@ import vendor.json.JSONObject;
 import java.sql.SQLException;
 
 /**
- * Controller class for controlling requests related to user entity actions
+ * Kontroler klasa vezana za sva usmjeravanja prema UserRepositoryju
  */
 public class UserController implements IUserRepository {
 

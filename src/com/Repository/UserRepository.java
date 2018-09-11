@@ -8,12 +8,18 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ *Klasa za dohvaćanje svih podataka iz baze putem SQL upita
+ */
 public class UserRepository implements IUserRepository {
 
     User user;
     JSONObject response = new JSONObject();
     boolean returnValue;
 
+    /**
+     * Metoda za koja omotaje SQL upit vezan za insert novog usera u bazu
+     */
     @Override
     public boolean addUser(/*User*/ JSONObject user) throws SQLException, ClassNotFoundException {
 
@@ -38,6 +44,9 @@ public class UserRepository implements IUserRepository {
         return returnValue;
     }
 
+    /**
+     * Metoda za koja omotaje SQL upit vezan za update stupca password jednog usera u bazi određenog na osnovu usernamea
+     */
     @Override
     public boolean resetUserPassword(JSONObject user) throws SQLException, ClassNotFoundException {
 
@@ -55,13 +64,18 @@ public class UserRepository implements IUserRepository {
         return returnValue;
     }
 
+    /**
+     * Metoda za koja omotaje SQL upit vezan za update(stupca status) usera iz baze određenog po parametru usernamea
+     * delete u našoj aplikaciji ne pretstavlja delete u bazi, već prebacivanje stupca status iz 1(aktivan) u 0(neaktivan)
+     */
     @Override
     public boolean deleteUser(JSONObject user) throws SQLException, ClassNotFoundException {
 
         String sql =
                 "UPDATE users " +
                         "SET status  = 0 " +
-                        "WHERE username = ?;";
+                        "WHERE username = ?;"
+                ;
 
         PreparedStatement preparedStatement = DBConnecter.queryDB(sql);
         preparedStatement.setString(1, user.getString("username"));
@@ -71,6 +85,9 @@ public class UserRepository implements IUserRepository {
 
     }
 
+    /**
+     * Metoda za koja omotaje SQL upit vezan za select jednog usera iz baze određenog po preklapanju parametara usename(public key) i password(private key)
+     */
     @Override
     public JSONObject login(JSONObject user) throws SQLException, ClassNotFoundException {
         //this.user = new User();

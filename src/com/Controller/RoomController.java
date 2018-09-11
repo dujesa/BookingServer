@@ -7,6 +7,9 @@ import vendor.json.JSONObject;
 
 import java.sql.SQLException;
 
+/**
+ * Kontroler klasa vezana za sva usmjeravanja prema RoomRepositoryju
+ */
 public class RoomController implements IRoom {
 
     RoomRepository roomRepo = new RoomRepository();

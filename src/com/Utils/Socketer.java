@@ -1,32 +1,29 @@
 package com.Utils;
 
-import com.Entity.User;
-import com.Repository.UserRepository;
 import vendor.json.JSONObject;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * Utility klasa za routanje requestova sa klijenta
+ */
 public class Socketer {
 
-     ServerSocket serverSocket   = null;
-
-     User orderer                = null;
-     BufferedReader bufferedReader       = null;
-     BufferedWriter bufferedWriter       = null;
+     ServerSocket serverSocket           = null;
      JSONObject response                 = new JSONObject();
      String route                        = null;
      JSONObject data                     = null;
-     JSONObject user                     = null;
+     int serverPort                      = 0;
 
-    int serverPort                         = 0;
 
-    InputStream inStreamReader          = null;
-
-    UserRepository userRepo = new UserRepository();
-
+    /**
+     * Konstruktor za instanciranje objekta iz Socketer klase
+     */
     public Socketer(/*String serverAddress,*/ int serverPort) throws IOException {
 
         this.serverPort = serverPort;
@@ -39,6 +36,12 @@ public class Socketer {
 
 
     }
+
+    /**
+     * Metoda za čekanje klijenta, dok se ne spoji na određen port i IP adresu određenu na serveru
+     *
+     * @throws Exception
+     */
     public void listenForClient(/*String serverAddress, int serverPort*/) throws Exception {
 
         ArrayList<Object> req = new ArrayList<>();
@@ -47,19 +50,8 @@ public class Socketer {
 
         System.out.println("Client connected on server...");
 
-        bufferedReader = new BufferedReader(
-                new InputStreamReader(
-                        clientsocket.getInputStream()
-                )
-        );
-        bufferedWriter = new BufferedWriter(
-                new OutputStreamWriter(
-                        clientsocket.getOutputStream()
-                )
-        );
-
-        DataInputStream din=new DataInputStream(clientsocket.getInputStream());
-        DataOutputStream dout=new DataOutputStream(clientsocket.getOutputStream());
+        DataInputStream din = new DataInputStream(clientsocket.getInputStream());
+        DataOutputStream dout = new DataOutputStream(clientsocket.getOutputStream());
 
         try {
             while (true) {
@@ -71,6 +63,7 @@ public class Socketer {
                 JSONObject request = new JSONObject(messageReceived);
 
 
+                System.out.println(request.toString());
                 route = request.getString("route");
                 data = request.getJSONObject("data");
 
@@ -87,18 +80,6 @@ public class Socketer {
 
             }
         }catch (Exception e){}
-    }
-
-    public void sendToClient(JSONObject response) throws IOException {
-        //Sending the response back to client
-
-        this.echoClientData(response);
-
-    }
-    //dummy function
-    public void echoClientData(JSONObject response) {
-
-        System.out.println(response);
     }
 
 }

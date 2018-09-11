@@ -8,10 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Klasa za dohvaćanje svih podataka o bookingsima iz baze putem SQL upita
+ */
 public class BookingRepository implements IBookingRepository {
 
     JSONObject response;
 
+    /**
+     * Metoda za koja omotaje SQL upit vezan za insert novog bookinga u bazu
+     */
     public boolean bookRoom(JSONObject booking) throws SQLException, ClassNotFoundException {
 
         String sql =
@@ -36,8 +42,11 @@ public class BookingRepository implements IBookingRepository {
         boolean returnValue = (preparedStatement.executeUpdate() == 0) ? false : true;
 
         return returnValue;
+    }
 
-    };
+    /**
+     * Metoda za koja omotaje SQL upit vezan za select svih bookinga iz baze
+     */
     public JSONArray viewBookings() throws SQLException, ClassNotFoundException {
 
         JSONArray response = new JSONArray();
@@ -82,13 +91,12 @@ public class BookingRepository implements IBookingRepository {
 
         }
 
-
-
         return response;
     }
 
-
-
+    /**
+     * Metoda za koja omotaje SQL upit vezan za select bookinga iz baze po parametru ID booking
+     */
     public JSONObject viewSingleBooking(JSONObject booking) throws SQLException, ClassNotFoundException {
 
         String recurring, fullName;
@@ -130,6 +138,10 @@ public class BookingRepository implements IBookingRepository {
         return response;
 
     }
+
+         /**
+          * Metoda za koja omotaje SQL upit vezan za update(postavljaju se sva polja vezana za booking redak na nove vrijednosti) postojećeg bookinga u bazi na osnovu parametra ID booking
+          */
     public boolean updateBooking(JSONObject booking) throws SQLException, ClassNotFoundException {
         String sql =
                 " UPDATE bookings " +
@@ -154,6 +166,9 @@ public class BookingRepository implements IBookingRepository {
         return returnValue;
     }
 
+    /**
+     * Metoda za koja omotaje SQL upit vezan za delete postojećeg upita iz baze na osnovu parametra ID booking
+     */
     public boolean deleteBooking(JSONObject booking) throws SQLException, ClassNotFoundException {
 
         String sql =
